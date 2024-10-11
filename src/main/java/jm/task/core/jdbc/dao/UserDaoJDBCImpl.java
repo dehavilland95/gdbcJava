@@ -25,7 +25,7 @@ public class UserDaoJDBCImpl implements UserDao {
                     age      INT
                 );
                 """;
-        try (var connection = Util.getDbConnection()) {
+        try (Connection connection = Util.getDbConnection()) {
             connection.createStatement().execute(sql);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -36,7 +36,7 @@ public class UserDaoJDBCImpl implements UserDao {
         String sql = """
                DROP TABLE IF EXISTS users;
                 """;
-        try (var connection = Util.getDbConnection()) {
+        try (Connection connection = Util.getDbConnection()) {
             connection.createStatement().execute(sql);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -49,7 +49,7 @@ public class UserDaoJDBCImpl implements UserDao {
                       (name, lastName, age)
                       VALUES (?, ?, ?);
                 """;
-        try (var connection = Util.getDbConnection()) {
+        try (Connection connection = Util.getDbConnection()) {
             var preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, lastName);
@@ -64,7 +64,7 @@ public class UserDaoJDBCImpl implements UserDao {
         String sql = """
                DELETE FROM users WHERE id = ?;
                 """;
-        try (var connection = Util.getDbConnection()) {
+        try (Connection connection = Util.getDbConnection()) {
             var preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setLong(1, id);
             preparedStatement.execute();
@@ -78,7 +78,7 @@ public class UserDaoJDBCImpl implements UserDao {
         String sql = """
                SELECT name, lastName, age FROM users;
                 """;
-        try (var connection = Util.getDbConnection()) {
+        try (Connection connection = Util.getDbConnection()) {
             var resultSet = connection.createStatement().executeQuery(sql);
             while (resultSet.next()) {
                 users.add(buildUser(resultSet));
@@ -101,7 +101,7 @@ public class UserDaoJDBCImpl implements UserDao {
         String sql = """
                 TRUNCATE TABLE Users;
                 """;
-        try (var connection = Util.getDbConnection()) {
+        try (Connection connection = Util.getDbConnection()) {
             connection.createStatement().execute(sql);
         } catch (SQLException e) {
             throw new RuntimeException(e);
